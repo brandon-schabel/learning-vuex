@@ -8,9 +8,11 @@
                 <app-another-result></app-another-result>
                 <hr>
                 <app-counter></app-counter>
-                <hr>
                 <app-another-counter></app-another-counter>
-                
+
+                <hr>
+                <input type="text" :value="value" @input="updateValue">
+                <p> {{value}} </p>
             </div>
         </div>
     </div>
@@ -33,6 +35,27 @@
             appResult: Result,
             appAnotherResult: AnotherResult,
             appAnotherCounter: AnotherCounter,
+        },
+        computed: {
+            /*value() {
+                //this will get the value of "value" in our state
+                return this.$store.getters.value;
+            } */
+            //instead of using the long way of getting and updating the value, we can use a getter and setter
+            value: {
+                get() {
+                    return this.$store.getters.value;
+                },
+                set() {
+                    this.$store.dispatch('updateValue',value);
+                }
+            }
+        },
+        methods: {
+            updateValue(event) {
+                // when we call this method and we update value it will also update in the state
+                this.$store.dispatch('updateValue', event.target.value);
+            }
         }
     }
 </script>
